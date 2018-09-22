@@ -2,7 +2,7 @@ package cryptopals
 
 // http://cryptopals.com/sets/1/challenges/3
 
-func DecodeXoredBytes(input []byte, c map[byte]float32) ([]byte, byte) {
+func DecodeXoredBytes(input []byte, c Corpus) ([]byte, byte, float32) {
 	decoded := make([]byte, len(input))
 	tmp := make([]byte, len(input))
 	var key byte
@@ -17,10 +17,10 @@ func DecodeXoredBytes(input []byte, c map[byte]float32) ([]byte, byte) {
 		}
 	}
 
-	return decoded, key
+	return decoded, key, max_score
 }
 
-func evaluateScore(bytes []byte, c map[byte]float32) float32 {
+func evaluateScore(bytes []byte, c Corpus) float32 {
 	var score float32
 	for _, b := range bytes {
 		score += c[b]
