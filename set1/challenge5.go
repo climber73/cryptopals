@@ -1,6 +1,6 @@
 package cryptopals
 
-func RepeatingKeyXorEncrypt(input []byte, key []byte) []byte {
+func RepeatingKeyXorApply(input []byte, key []byte) []byte {
 	if len(key) == 0 {
 		panic("Key length is 0")
 	}

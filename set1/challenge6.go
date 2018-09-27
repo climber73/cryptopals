@@ -19,10 +19,31 @@ func BreakRepeatingKeyXor(path string) (res []byte, key []byte) {
 
 	keySize := evaluateKeySize(input)
 	log.Printf("Best key size: %d", keySize)
-	//chunks := splitIntoChunks(input, keySize)
+	chunks := splitIntoChunks(input, keySize)
+	transposed := transposeChunks(chunks)
+	key = solveEachBlock(transposed)
+	res = RepeatingKeyXorApply(input, key)
+	return
+}
 
-	res = make([]byte, len(input))
-	key = make([]byte, 3)
+func solveEachBlock(transposed [][]byte) (key []byte) {
+	key = make([]byte, len(transposed))
+	corpus := buildCorpus()
+	for i := range transposed {
+		_, key[i], _ = DecodeXoredBytes(transposed[i], corpus)
+	}
+	return
+}
+
+func transposeChunks(chunks [][]byte) (transposed [][]byte) {
+	n := len(chunks[0])
+	for i := 0; i < n; i++ {
+		row := make([]byte, len(chunks))
+		for j := range chunks {
+			row[j] = chunks[j][i]
+		}
+		transposed = append(transposed, row)
+	}
 	return
 }
 
