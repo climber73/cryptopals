@@ -2,7 +2,7 @@ package cryptopals
 
 import "crypto/aes"
 
-func Aes128EsbModeDecrypt(input []byte, key []byte) []byte {
+func Aes128EcbModeDecrypt(input []byte, key []byte) []byte {
 	block, err := aes.NewCipher(key)
 	if err != nil {
 		panic(err.Error())
