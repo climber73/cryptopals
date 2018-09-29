@@ -1,3 +1,5 @@
 language: go
 
+go_import_path: github.com/climber73/criptopals
+
 script: make test
