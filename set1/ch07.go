@@ -1,15 +1,19 @@
 package set1
 
-import "crypto/aes"
+import "fmt"
+import "encoding/base64"
+import "io/ioutil"
+import "github.com/climber73/criptopals/common"
 
-func Aes128EcbModeDecrypt(input []byte, key []byte) []byte {
-	block, err := aes.NewCipher(key)
+func AesInEcbModeDecrypt(path string, key []byte) ([]byte, error) {
+	text, err := ioutil.ReadFile(path)
 	if err != nil {
-		panic(err.Error())
+		return nil, fmt.Errorf("Can't read file: %s", path)
 	}
-	res := make([]byte, len(input))
-	for i := 0; i < len(input); i += len(key) {
-		block.Decrypt(res[i:i+len(key)], input[i:i+len(key)])
+	input, err := base64.StdEncoding.DecodeString(string(text))
+	if err != nil {
+		return nil, fmt.Errorf("Can't decode base64 to bytes: %s", err)
 	}
-	return res
+	res := common.ECBDecrypt(input, key)
+	return res, nil
 }
