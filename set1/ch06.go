@@ -20,7 +20,7 @@ func BreakRepeatingKeyXor(path string) (res []byte, key []byte) {
 
 	keySize := evaluateKeySize(input)
 	log.Printf("Best key size: %d", keySize)
-	chunks := common.SplitIntoChunks(input, keySize)
+	chunks := splitIntoNormalizedChunks(input, keySize)
 	transposed := common.TransposeChunks(chunks)
 	key = solveEachBlock(transposed)
 	res = RepeatingKeyXorApply(input, key)
@@ -41,9 +41,12 @@ func evaluateKeySize(input []byte) int {
 	var diff float64
 	minDiff := math.Inf(0)
 	for keySize := 2; keySize <= 40; keySize++ {
-		chunks := common.SplitIntoChunks(input, keySize)
+		chunks := splitIntoNormalizedChunks(input, keySize)
 		diff = 0
 		for i := 0; i < len(chunks); i += 2 {
+			if len(chunks[i+1]) != keySize {
+				break
+			}
 			hd, err := common.HammingDistance(chunks[i], chunks[i+1])
 			if err != nil {
 				panic(err.Error())
@@ -57,4 +60,15 @@ func evaluateKeySize(input []byte) int {
 		}
 	}
 	return bestKeySize
+}
+
+func splitIntoNormalizedChunks(input []byte, keySize int) [][]byte {
+	chunks := common.SplitIntoChunks(input, keySize)
+	if len(chunks[len(chunks)-1]) != keySize {
+		chunks = chunks[:len(chunks)-1]
+	}
+	if len(chunks)%2 != 0 { // we need pairs
+		chunks = chunks[:len(chunks)-1]
+	}
+	return chunks
 }

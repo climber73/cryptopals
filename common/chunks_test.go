@@ -4,11 +4,11 @@ import "testing"
 
 func TestSplitIntoChunks(t *testing.T) {
 	res := SplitIntoChunks([]byte("1234567890"), 3)
-	want := [][]byte{{'1', '2', '3'}, {'4', '5', '6'}}
+	want := [][]byte{{'1', '2', '3'}, {'4', '5', '6'}, {'7', '8', '9'}, {'0'}}
 	for i := range res {
 		for j := range res[i] {
 			if res[i][j] != want[i][j] {
-				t.Fail()
+				t.Errorf("Expected: %d, got: %d", want, res)
 			}
 		}
 	}

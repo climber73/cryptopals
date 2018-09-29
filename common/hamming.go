@@ -4,7 +4,7 @@ import "fmt"
 
 func HammingDistance(a, b []byte) (int, error) {
 	if len(a) != len(b) {
-		return 0, fmt.Errorf("Mismatched lengths: len(%s)=%d, len(%s)=%d", a, len(a), b, len(b))
+		return 0, fmt.Errorf("Mismatched lengths: len(%d)=%d, len(%d)=%d", a, len(a), b, len(b))
 	}
 	var diff int
 	for i := range a {

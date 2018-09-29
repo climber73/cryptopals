@@ -2,6 +2,7 @@ package set1
 
 import "fmt"
 import "encoding/base64"
+import "encoding/hex"
 import "io/ioutil"
 import "github.com/climber73/criptopals/common"
 
@@ -14,6 +15,7 @@ func AesInEcbModeDecrypt(path string, key []byte) ([]byte, error) {
 	if err != nil {
 		return nil, fmt.Errorf("Can't decode base64 to bytes: %s", err)
 	}
+	fmt.Printf("%s", hex.EncodeToString(input[:32]))
 	res := common.ECBDecrypt(input, key)
 	return res, nil
 }

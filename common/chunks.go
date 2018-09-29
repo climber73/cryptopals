@@ -3,13 +3,10 @@ package common
 func SplitIntoChunks(input []byte, chunkSize int) (chunks [][]byte) {
 	for i := 0; i < len(input); i += chunkSize {
 		end := i + chunkSize
-		if end > len(input) {
-			break
+		if end >= len(input) {
+			end = len(input)
 		}
 		chunks = append(chunks, input[i:end])
-	}
-	if len(chunks)%2 != 0 {
-		chunks = chunks[:len(chunks)-1]
 	}
 	return
 }
