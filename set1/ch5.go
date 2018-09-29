@@ -1,4 +1,4 @@
-package cryptopals
+package set1
 
 func RepeatingKeyXorApply(input []byte, key []byte) []byte {
 	if len(key) == 0 {

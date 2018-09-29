@@ -1,6 +1,4 @@
-package cryptopals
-
-// http://cryptopals.com/sets/1/challenges/3
+package set1
 
 func DecodeXoredBytes(input []byte, c Corpus) ([]byte, byte, float32) {
 	decoded := make([]byte, len(input))

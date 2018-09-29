@@ -1,4 +1,4 @@
-package cryptopals
+package set1
 
 // http://cryptopals.com/sets/1/challenges/1
 

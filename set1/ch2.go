@@ -1,12 +1,17 @@
-package cryptopals
+package set1
 
-func FixedXor(a, b []byte) []byte {
-	if len(a) != len(b) {
-		panic("lengths are different")
+import "encoding/hex"
+import "github.com/climber73/criptopals/common"
+
+func FixedXor(hex1, hex2 string) (string, error) {
+	a, err := hex.DecodeString(hex1)
+	if err != nil {
+		return "", err
 	}
-	res := make([]byte, len(a))
-	for i := range res {
-		res[i] = a[i] ^ b[i]
+	b, err := hex.DecodeString(hex2)
+	if err != nil {
+		return "", err
 	}
-	return res
+	res := common.Xor(a, b)
+	return hex.EncodeToString(res), nil
 }

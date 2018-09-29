@@ -1,4 +1,4 @@
-package cryptopals
+package set2
 
 func PKCSPadBlock(block []byte, size int) (padded []byte) {
 	diff := size - len(block)
