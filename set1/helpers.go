@@ -31,22 +31,3 @@ func decodeHex(s string) []byte {
 	}
 	return res
 }
-
-func hammingDistance(a, b []byte) int {
-	if len(a) != len(b) {
-		log.Fatalf("Mismatched lengths: len(%s)=%d, len(%s)=%d", a, len(a), b, len(b))
-	}
-	var diff int
-	for i := range a {
-		diff += int(countBits(a[i] ^ b[i]))
-	}
-	return diff
-}
-
-func countBits(b byte) (res byte) {
-	for b > 0 {
-		res += b & 0x01
-		b >>= 1
-	}
-	return
-}

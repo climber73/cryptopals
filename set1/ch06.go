@@ -2,6 +2,7 @@ package set1
 
 import (
 	"encoding/base64"
+	"github.com/climber73/criptopals/common"
 	"io/ioutil"
 	"log"
 	"math"
@@ -55,7 +56,11 @@ func evaluateKeySize(input []byte) int {
 		chunks := splitIntoChunks(input, keySize)
 		diff = 0
 		for i := 0; i < len(chunks); i += 2 {
-			diff += float64(hammingDistance(chunks[i], chunks[i+1])) / float64(keySize)
+			hd, err := common.HammingDistance(chunks[i], chunks[i+1])
+			if err != nil {
+				panic(err.Error())
+			}
+			diff += float64(hd) / float64(keySize)
 		}
 		diff = diff / float64(len(chunks)/2)
 		if diff < minDiff {

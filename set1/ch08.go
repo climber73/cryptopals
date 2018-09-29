@@ -4,6 +4,7 @@ import "io/ioutil"
 import "encoding/hex"
 import "log"
 import "strings"
+import "github.com/climber73/criptopals/common"
 
 func DetectAes(path string) {
 	text, err := ioutil.ReadFile(path)
@@ -22,7 +23,11 @@ func DetectAes(path string) {
 		chunks := splitIntoChunks(input, 16)
 		for j := 0; j < len(chunks); j++ {
 			for k := j + 1; k < len(chunks)-1; k++ {
-				if j != k && hammingDistance(chunks[j], chunks[k]) == 0 {
+				hd, err := common.HammingDistance(chunks[j], chunks[k])
+				if err != nil {
+					panic(err.Error())
+				}
+				if j != k && hd == 0 {
 					found = i
 				}
 			}
