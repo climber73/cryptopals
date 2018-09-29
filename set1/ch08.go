@@ -20,7 +20,7 @@ func DetectAes(path string) {
 		if err != nil {
 			log.Fatalf("Can't decode hex to bytes: %s", err)
 		}
-		chunks := splitIntoChunks(input, 16)
+		chunks := common.SplitIntoChunks(input, 16)
 		for j := 0; j < len(chunks); j++ {
 			for k := j + 1; k < len(chunks)-1; k++ {
 				hd, err := common.HammingDistance(chunks[j], chunks[k])
