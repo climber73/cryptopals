@@ -2,30 +2,32 @@ package set2
 
 import "testing"
 
-func TestPKCSPadBlock(t *testing.T) {
-	var input, padded []byte
+func TestPKCS7Pad(t *testing.T) {
+	var input, want, padded []byte
 
 	input = []byte{7, 7, 7}
-	padded = PKCSPadBlock(input, 3)
-	checkResult(t, input, padded, 3)
+	padded = PKCS7Pad(input, 3)
+	want = []byte{7, 7, 7, 3, 3, 3}
+	checkResult(t, want, padded)
 
 	input = []byte{7, 7, 7}
-	padded = PKCSPadBlock(input, 5)
-	checkResult(t, input, padded, 5)
+	padded = PKCS7Pad(input, 5)
+	want = []byte{7, 7, 7, 2, 2}
+	checkResult(t, want, padded)
+
+	input = []byte{7, 7, 7, 7, 7, 7, 7}
+	padded = PKCS7Pad(input, 3)
+	want = []byte{7, 7, 7, 7, 7, 7, 7, 2, 2}
+	checkResult(t, want, padded)
 }
 
-func checkResult(t *testing.T, input, padded []byte, size int) {
-	if len(padded) != size {
-		t.Errorf("wrong len: %d", len(padded))
+func checkResult(t *testing.T, want, padded []byte) {
+	if len(padded) != len(want) {
+		t.Errorf("expected len %d, got: %d", len(want), len(padded))
 	}
-	for i := 0; i < len(input); i++ {
-		if padded[i] != input[i] {
-			t.Errorf("wrong value at %d position of paddded slice: %d, input: %d", i, padded, input)
-		}
-	}
-	for i := len(input); i < len(padded); i++ {
-		if padded[i] != byte(size-len(input)) {
-			t.Errorf("wrong value at %d position of paddded slice: %d, input: %d", i, padded, input)
+	for i := 0; i < len(want); i++ {
+		if padded[i] != want[i] {
+			t.Errorf("expected: %d, got: %d", want, padded)
 		}
 	}
 }
