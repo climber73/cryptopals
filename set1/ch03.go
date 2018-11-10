@@ -4,18 +4,18 @@ func DecodeXoredBytes(input []byte, c Corpus) ([]byte, byte, float32) {
 	decoded := make([]byte, len(input))
 	tmp := make([]byte, len(input))
 	var key byte
-	var max_score float32
+	var maxScore float32
 	for k := 0x00; k <= 0xff; k++ {
 		decodeBytes(input, tmp, byte(k))
 		score := evaluateScore(tmp, c)
-		if score > max_score {
+		if score > maxScore {
 			key = byte(k)
 			copy(decoded, tmp)
-			max_score = score
+			maxScore = score
 		}
 	}
 
-	return decoded, key, max_score
+	return decoded, key, maxScore
 }
 
 func evaluateScore(bytes []byte, c Corpus) float32 {
