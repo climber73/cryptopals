@@ -4,12 +4,6 @@ import (
 	"crypto/aes"
 )
 
-type CryptoAction bool
-const (
-	Encrypt CryptoAction = true
-	Decrypt CryptoAction = false
-)
-
 func ECBDecrypt(input []byte, key []byte) []byte {
 	return ecbAction(Decrypt, input, key)
 }
