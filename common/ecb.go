@@ -1,27 +1,40 @@
 package common
 
-import "crypto/aes"
+import (
+	"crypto/aes"
+)
+
+type CryptoAction bool
+const (
+	Encrypt CryptoAction = true
+	Decrypt CryptoAction = false
+)
 
 func ECBDecrypt(input []byte, key []byte) []byte {
-	block, err := aes.NewCipher(key)
-	if err != nil {
-		panic(err.Error())
-	}
-	res := make([]byte, len(input))
-	for i := 0; i < len(input); i += len(key) {
-		block.Decrypt(res[i:i+len(key)], input[i:i+len(key)])
-	}
-	return res
+	return ecbAction(Decrypt, input, key)
 }
 
 func ECBEncrypt(input []byte, key []byte) []byte {
+	return ecbAction(Encrypt, input, key)
+}
+
+func ecbAction(action CryptoAction, input []byte, key []byte) []byte {
 	block, err := aes.NewCipher(key)
 	if err != nil {
 		panic(err.Error())
 	}
 	res := make([]byte, len(input))
 	for i := 0; i < len(input); i += len(key) {
-		block.Encrypt(res[i:i+len(key)], input[i:i+len(key)])
+		end := i + len(key)
+		if end >= len(input) {
+			end = len(input)
+		}
+		switch action {
+		case Encrypt:
+			block.Encrypt(res[i:end], input[i:end])
+		case Decrypt:
+			block.Decrypt(res[i:end], input[i:end])
+		}
 	}
 	return res
 }
