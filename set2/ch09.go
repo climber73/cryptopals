@@ -1,7 +1,7 @@
 package set2
 
 import (
-	"github.com/climber73/criptopals/common"
+	"github.com/climber73/cryptopals/common"
 )
 
 func PKCS7Pad(input []byte, size int) []byte {

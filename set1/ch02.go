@@ -1,7 +1,7 @@
 package set1
 
 import "encoding/hex"
-import "github.com/climber73/criptopals/common"
+import "github.com/climber73/cryptopals/common"
 
 func FixedXor(hex1, hex2 string) (string, error) {
 	a, err := hex.DecodeString(hex1)

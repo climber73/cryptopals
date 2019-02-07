@@ -4,7 +4,7 @@ import "fmt"
 import "encoding/base64"
 import "encoding/hex"
 import "io/ioutil"
-import "github.com/climber73/criptopals/common"
+import "github.com/climber73/cryptopals/common"
 
 func AesInEcbModeDecrypt(path string, key []byte) ([]byte, error) {
 	text, err := ioutil.ReadFile(path)

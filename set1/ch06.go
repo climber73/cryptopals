@@ -2,7 +2,7 @@ package set1
 
 import (
 	"encoding/base64"
-	"github.com/climber73/criptopals/common"
+	"github.com/climber73/cryptopals/common"
 	"io/ioutil"
 	"log"
 	"math"
