@@ -22,7 +22,7 @@ func TestCBCDecrypt(t *testing.T) {
 	if err != nil {
 		t.Errorf("Can't read file: %s", decryptedPath)
 	}
-	if bytes.Compare(decryptedText, res) != 0 {
+	if !bytes.Equal(decryptedText, res) {
 		t.Errorf("expected:\n<%x>\ngot:\n<%x>", decryptedText, res)
 	}
 }
