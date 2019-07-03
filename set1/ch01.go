@@ -26,11 +26,11 @@ func base16ToBytes(str string) ([]byte, error) {
 	for i := 0; i < len/2; i++ {
 		c1, ok := hexCharToByte(str[i*2])
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("wrong char: %c", str[i*2]))
+			return nil, fmt.Errorf("wrong char: %c", str[i*2])
 		}
 		c2, ok := hexCharToByte(str[i*2+1])
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("wrong char: %c", str[i*2+1]))
+			return nil, fmt.Errorf("wrong char: %c", str[i*2+1])
 		}
 		b := c1<<4 + c2
 		bytes[i] = b
@@ -48,7 +48,7 @@ func bytesToBase64(bytes []byte) ([]byte, error) {
 		result[oi+0], result[oi+1], result[oi+2], result[oi+3], ok =
 			encodeThreeBytesToFourBase64Chars(bytes[i+0], bytes[i+1], bytes[i+2])
 		if !ok {
-			return result, errors.New(fmt.Sprintf("wrong bytes: %b, %b, %b", bytes[i+0], bytes[i+1], bytes[i+2]))
+			return result, fmt.Errorf("wrong bytes: %b, %b, %b", bytes[i+0], bytes[i+1], bytes[i+2])
 		}
 		oi += 4
 		i += 3
@@ -57,7 +57,7 @@ func bytesToBase64(bytes []byte) ([]byte, error) {
 		result[oi+0], result[oi+1], _, _, ok =
 			encodeThreeBytesToFourBase64Chars(bytes[i+0], 0x00, 0x00)
 		if !ok {
-			return result, errors.New(fmt.Sprintf("wrong byte: %b", bytes[i+0]))
+			return result, fmt.Errorf("wrong byte: %b", bytes[i+0])
 		}
 		result[oi+2] = '='
 		result[oi+3] = '='
@@ -66,7 +66,7 @@ func bytesToBase64(bytes []byte) ([]byte, error) {
 		result[oi+0], result[oi+1], result[oi+2], _, ok =
 			encodeThreeBytesToFourBase64Chars(bytes[i+0], bytes[i+1], 0x00)
 		if !ok {
-			return result, errors.New(fmt.Sprintf("wrong bytes: %b, %b", bytes[i+0], bytes[i+1]))
+			return result, fmt.Errorf("wrong bytes: %b, %b", bytes[i+0], bytes[i+1])
 		}
 		result[oi+3] = '='
 	}
@@ -94,7 +94,7 @@ func outpuSize(inputSize int) int {
 
 func toBase64Char(b byte) (byte, bool) {
 	switch {
-	case 0 <= b && b <= 25:
+	case b <= 25:  // every byte value is >= 0
 		return b + 'A', true
 	case 26 <= b && b <= 51:
 		return b - 26 + 'a', true
