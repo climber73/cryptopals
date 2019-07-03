@@ -1,8 +1,8 @@
 package set2
 
 import "github.com/climber73/cryptopals/common"
+import "github.com/climber73/cryptopals/set1"
 import "math/rand"
-import "bytes"
 import "time"
 import "fmt"
 
@@ -18,22 +18,11 @@ func init() {
 }
 
 func GuessMode(encrypted []byte) Mode {
-	chunks := common.SplitIntoChunks(encrypted, 16)
-	if len(chunks) == 0 {
-		panic("Empty chunks!")
+	if set1.DetectAesECB(encrypted) {
+		return ECB
+	} else {
+		return CBC
 	}
-	last := chunks[len(chunks)-1]
-	if len(last) != 16 {
-		panic("len(encrypted) mod 16 != 0")
-	}
-	for i, ch1 := range chunks {
-		for j, ch2 := range chunks {
-			if i != j && bytes.Equal(ch1, ch2) {
-				return ECB
-			}
-		}
-	}
-	return CBC
 }
 
 // return applied mode as second parameter for test purposes:
@@ -65,6 +54,7 @@ func appendPrependRandomBytes(text []byte) (modified []byte) {
 	copy(modified[:len(before)], before)
 	copy(modified[len(before):len(before)+len(text)], text)
 	copy(modified[len(before)+len(text):], after)
+	fmt.Printf("modified: %s\n", modified)
 	return
 }
 
@@ -73,6 +63,7 @@ func generateRandomAesKey() (key []byte) {
 	for i := range key {
 		key[i] = randByte()
 	}
+	fmt.Printf("key: %x\n", key)
 	return
 }
 

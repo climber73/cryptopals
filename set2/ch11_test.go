@@ -2,12 +2,15 @@ package set2
 
 import "testing"
 import "bytes"
+import "fmt"
+import "gotest.tools/assert"
 
 func TestGuessMode(t *testing.T) {
-	block := bytes.Repeat([]byte("a"), 16*7)
-	encrypted, appliedMode := ProduceRandomlyEcryptedText(block)
-	mode := GuessMode(encrypted)
-	if appliedMode != mode {
-		t.Errorf("expected:\n<%x>\ngot:\n<%x>", appliedMode, mode)
+	block := bytes.Repeat([]byte("abcdefghijklmnop"), 3)
+	for i := 0; i < 10; i++ {
+		fmt.Printf("# %d:\n", i)
+		encrypted, appliedMode := ProduceRandomlyEcryptedText(block)
+		mode := GuessMode(encrypted)
+		assert.Equal(t, appliedMode, mode)
 	}
 }
